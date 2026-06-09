@@ -1,0 +1,21 @@
+tasks:
+  installDeps:
+    name: Install dependencies
+    description: Install npm dependencies for the Express app.
+    command: |
+      npm install
+    triggeredBy:
+      - manual
+      - postDevcontainerStart
+      - prebuild
+
+services:
+  dev-server:
+    name: Dev Server
+    description: Run the Express application.
+    commands:
+      start: |
+        ona environment port open 3000 --dont-wait --admission creator_only --name "dev-server"
+        npm start
+      ready: |
+        curl -sf http://localhost:3000
