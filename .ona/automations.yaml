@@ -1,0 +1,24 @@
+tasks:
+  installDeps:
+    name: Install dependencies
+    description: Install npm dependencies from the lockfile.
+    command: |
+      npm ci
+    triggeredBy:
+      - manual
+      - postDevcontainerStart
+      - prebuild
+
+services:
+  dev-server:
+    name: Express App
+    description: Run the Express application server.
+    triggeredBy:
+      - manual
+      - postEnvironmentStart
+    commands:
+      start: |
+        ona environment port open 3000 --dont-wait --admission creator_only --name "Express App"
+        PORT=3000 npm start
+      ready: |
+        curl -f http://localhost:3000
